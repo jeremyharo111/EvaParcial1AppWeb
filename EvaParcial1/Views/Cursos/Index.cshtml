@@ -1,0 +1,100 @@
+@model IEnumerable<EvaParcial1.Models.Curso>
+
+@{
+    ViewData["Title"] = "Cursos";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">
+            <i class="bi bi-book"></i>
+            Gestión de Cursos
+        </h1>
+        <p class="page-subtitle">Administra los cursos disponibles en el sistema</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary btn-lg">
+        <i class="bi bi-plus-lg"></i>
+        Nuevo Curso
+    </a>
+</div>
+
+<div class="card">
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-striped" id="cursosTable">
+                <thead>
+                    <tr>
+                        <th><i class="bi bi-hash me-1"></i>ID</th>
+                        <th><i class="bi bi-bookmark me-1"></i>Nombre</th>
+                        <th><i class="bi bi-text-paragraph me-1"></i>Descripción</th>
+                        <th><i class="bi bi-calendar-event me-1"></i>Fecha Inicio</th>
+                        <th><i class="bi bi-calendar-check me-1"></i>Fecha Fin</th>
+                        <th><i class="bi bi-clock me-1"></i>Estado</th>
+                        <th class="text-center"><i class="bi bi-gear me-1"></i>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var estado = DateTime.Now < item.FechaInicio ? "Próximo" :
+                                     DateTime.Now > item.FechaFin ? "Finalizado" : "En Curso";
+                        var badgeClass = estado == "Próximo" ? "bg-info" :
+                                        estado == "Finalizado" ? "bg-secondary" : "bg-success";
+                        <tr>
+                            <td><strong>@item.CursoId</strong></td>
+                            <td>
+                                <span class="fw-semibold text-primary">@item.Nombre</span>
+                            </td>
+                            <td>
+                                <span class="text-muted">
+                                    @(item.Descripcion?.Length > 50 ? item.Descripcion.Substring(0, 50) + "..." : item.Descripcion ?? "Sin descripción")
+                                </span>
+                            </td>
+                            <td>
+                                <i class="bi bi-calendar3 text-success me-1"></i>
+                                @item.FechaInicio.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                <i class="bi bi-calendar3 text-danger me-1"></i>
+                                @item.FechaFin.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                <span class="badge badge-status @badgeClass">@estado</span>
+                            </td>
+                            <td>
+                                <div class="btn-action-group">
+                                    <a asp-action="Details" asp-route-id="@item.CursoId" class="btn btn-info btn-sm" title="Ver detalles">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.CursoId" class="btn btn-warning btn-sm" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.CursoId" class="btn btn-danger btn-sm" title="Eliminar">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="bi bi-book"></i>
+            <h4>No hay cursos registrados</h4>
+            <p>Comienza agregando un nuevo curso al sistema</p>
+            <a asp-action="Create" class="btn btn-primary mt-2">
+                <i class="bi bi-plus-lg me-1"></i>
+                Agregar Curso
+            </a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/cursos.js" asp-append-version="true"></script>
+}

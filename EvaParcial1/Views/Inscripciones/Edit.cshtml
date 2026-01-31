@@ -1,0 +1,104 @@
+@model EvaParcial1.Models.Inscripcion
+
+@{
+    ViewData["Title"] = "Editar Inscripción";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">
+            <i class="bi bi-pencil-square"></i>
+            Editar Inscripción
+        </h1>
+        <p class="page-subtitle">Modifique los datos de la inscripción seleccionada</p>
+    </div>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i>
+        Volver
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-clipboard-check me-2"></i>
+                Editando Inscripción #@Model.InscripcionId
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit" id="inscripcionForm">
+                    <div asp-validation-summary="All" class="validation-summary-errors"></div>
+                    <input type="hidden" asp-for="InscripcionId" />
+                    <input type="hidden" asp-for="FechaInscripcion" />
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="EstudianteId" class="form-label">
+                                <i class="bi bi-person me-1"></i>Estudiante
+                            </label>
+                            <select asp-for="EstudianteId" asp-items="@ViewBag.EstudianteId" class="form-select">
+                                <option value="">-- Seleccione un estudiante --</option>
+                            </select>
+                            <span asp-validation-for="EstudianteId" class="field-validation-error"></span>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="CursoId" class="form-label">
+                                <i class="bi bi-book me-1"></i>Curso
+                            </label>
+                            <select asp-for="CursoId" asp-items="@ViewBag.CursoId" class="form-select">
+                                <option value="">-- Seleccione un curso --</option>
+                            </select>
+                            <span asp-validation-for="CursoId" class="field-validation-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="Estado" class="form-label">
+                                <i class="bi bi-flag me-1"></i>Estado
+                            </label>
+                            <select asp-for="Estado" class="form-select">
+                                <option value="Activo">Activo</option>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Completado">Completado</option>
+                                <option value="Cancelado">Cancelado</option>
+                            </select>
+                            <span asp-validation-for="Estado" class="field-validation-error"></span>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">
+                                <i class="bi bi-calendar-check me-1"></i>Fecha de Inscripción
+                            </label>
+                            <input type="text" class="form-control bg-light" value="@Model.FechaInscripcion.ToString("dd/MM/yyyy")" readonly />
+                            <small class="text-muted">La fecha de inscripción no puede modificarse</small>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Delete" asp-route-id="@Model.InscripcionId" class="btn btn-outline-danger">
+                            <i class="bi bi-trash me-1"></i>
+                            Eliminar
+                        </a>
+                        <div class="d-flex gap-2">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-x-lg me-1"></i>
+                                Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-check-lg me-1"></i>
+                                Guardar Cambios
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/inscripciones.js" asp-append-version="true"></script>
+}

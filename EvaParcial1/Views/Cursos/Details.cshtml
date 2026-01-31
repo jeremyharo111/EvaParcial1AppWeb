@@ -1,0 +1,153 @@
+@model EvaParcial1.Models.Curso
+
+@{
+    ViewData["Title"] = "Detalles del Curso";
+    var estado = DateTime.Now < Model.FechaInicio ? "Próximo" :
+                 DateTime.Now > Model.FechaFin ? "Finalizado" : "En Curso";
+    var badgeClass = estado == "Próximo" ? "bg-info" :
+                    estado == "Finalizado" ? "bg-secondary" : "bg-success";
+    var duracionDias = (Model.FechaFin - Model.FechaInicio).Days;
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">
+            <i class="bi bi-book"></i>
+            Detalles del Curso
+        </h1>
+        <p class="page-subtitle">Información completa del curso seleccionado</p>
+    </div>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i>
+        Volver
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="info-card">
+            <div class="info-card-header">
+                <h2>@Model.Nombre</h2>
+                <span class="badge @badgeClass mt-2">@estado</span>
+            </div>
+            <div class="info-card-body">
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="bi bi-hash"></i>
+                        ID del Curso
+                    </div>
+                    <div class="info-value">
+                        <strong>@Model.CursoId</strong>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="bi bi-bookmark"></i>
+                        Nombre
+                    </div>
+                    <div class="info-value">@Model.Nombre</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="bi bi-text-paragraph"></i>
+                        Descripción
+                    </div>
+                    <div class="info-value">
+                        @(Model.Descripcion ?? "<em class='text-muted'>Sin descripción</em>")
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="bi bi-calendar-event"></i>
+                        Fecha de Inicio
+                    </div>
+                    <div class="info-value">
+                        <span class="badge bg-success">@Model.FechaInicio.ToString("dddd, dd MMMM yyyy")</span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="bi bi-calendar-check"></i>
+                        Fecha de Fin
+                    </div>
+                    <div class="info-value">
+                        <span class="badge bg-danger">@Model.FechaFin.ToString("dddd, dd MMMM yyyy")</span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="bi bi-clock"></i>
+                        Duración
+                    </div>
+                    <div class="info-value">
+                        <span class="badge bg-primary">@duracionDias días</span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="bi bi-people"></i>
+                        Estudiantes Inscritos
+                    </div>
+                    <div class="info-value">
+                        <span class="badge bg-info">@Model.Inscripciones.Count estudiante(s)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-end gap-2">
+                <a asp-action="Edit" asp-route-id="@Model.CursoId" class="btn btn-warning">
+                    <i class="bi bi-pencil me-1"></i>
+                    Editar
+                </a>
+                <a asp-action="Delete" asp-route-id="@Model.CursoId" class="btn btn-danger">
+                    <i class="bi bi-trash me-1"></i>
+                    Eliminar
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header bg-secondary-gradient">
+                <i class="bi bi-people me-2"></i>
+                Estudiantes Inscritos
+            </div>
+            <div class="card-body p-0">
+                @if (Model.Inscripciones.Any())
+                {
+                    <ul class="list-group list-group-flush">
+                        @foreach (var inscripcion in Model.Inscripciones)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="bi bi-person-circle text-primary me-2"></i>
+                                    @inscripcion.Estudiante?.NombreCompleto
+                                </div>
+                                <span class="badge bg-primary rounded-pill">
+                                    @inscripcion.FechaInscripcion.ToString("dd/MM/yyyy")
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="text-center py-4 text-muted">
+                        <i class="bi bi-person-x fs-1 d-block mb-2"></i>
+                        <p class="mb-0">Sin estudiantes inscritos</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/cursos.js" asp-append-version="true"></script>
+}

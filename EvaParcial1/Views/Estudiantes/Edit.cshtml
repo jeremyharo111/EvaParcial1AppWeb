@@ -1,0 +1,106 @@
+@model EvaParcial1.Models.Estudiante
+
+@{
+    ViewData["Title"] = "Editar Estudiante";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">
+            <i class="bi bi-pencil-square"></i>
+            Editar Estudiante
+        </h1>
+        <p class="page-subtitle">Modifique la información del estudiante seleccionado</p>
+    </div>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i>
+        Volver
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-person me-2"></i>
+                Editando: @Model.NombreCompleto
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit" id="estudianteForm">
+                    <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+                    <input type="hidden" asp-for="EstudianteId" />
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="Nombre" class="form-label">
+                                <i class="bi bi-person me-1"></i>Nombre
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input asp-for="Nombre" class="form-control" />
+                            </div>
+                            <span asp-validation-for="Nombre" class="field-validation-error"></span>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="Apellido" class="form-label">
+                                <i class="bi bi-person-badge me-1"></i>Apellido
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                <input asp-for="Apellido" class="form-control" />
+                            </div>
+                            <span asp-validation-for="Apellido" class="field-validation-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="Email" class="form-label">
+                                <i class="bi bi-envelope me-1"></i>Correo Electrónico
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input asp-for="Email" class="form-control" type="email" />
+                            </div>
+                            <span asp-validation-for="Email" class="field-validation-error"></span>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="FechaNacimiento" class="form-label">
+                                <i class="bi bi-calendar-heart me-1"></i>Fecha de Nacimiento
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-calendar-heart"></i></span>
+                                <input asp-for="FechaNacimiento" class="form-control" type="date" id="fechaNacimiento" />
+                            </div>
+                            <span asp-validation-for="FechaNacimiento" class="field-validation-error"></span>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Delete" asp-route-id="@Model.EstudianteId" class="btn btn-outline-danger">
+                            <i class="bi bi-trash me-1"></i>
+                            Eliminar
+                        </a>
+                        <div class="d-flex gap-2">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-x-lg me-1"></i>
+                                Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-check-lg me-1"></i>
+                                Guardar Cambios
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/estudiantes.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,106 @@
+@model EvaParcial1.Models.Curso
+
+@{
+    ViewData["Title"] = "Editar Curso";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">
+            <i class="bi bi-pencil-square"></i>
+            Editar Curso
+        </h1>
+        <p class="page-subtitle">Modifique la información del curso seleccionado</p>
+    </div>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i>
+        Volver
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-book me-2"></i>
+                Editando: @Model.Nombre
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit" id="cursoForm">
+                    <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+                    <input type="hidden" asp-for="CursoId" />
+                    
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <label asp-for="Nombre" class="form-label">
+                                <i class="bi bi-bookmark me-1"></i>Nombre del Curso
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-bookmark"></i></span>
+                                <input asp-for="Nombre" class="form-control" />
+                            </div>
+                            <span asp-validation-for="Nombre" class="field-validation-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <label asp-for="Descripcion" class="form-label">
+                                <i class="bi bi-text-paragraph me-1"></i>Descripción
+                            </label>
+                            <textarea asp-for="Descripcion" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Descripcion" class="field-validation-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="FechaInicio" class="form-label">
+                                <i class="bi bi-calendar-event me-1"></i>Fecha de Inicio
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                                <input asp-for="FechaInicio" class="form-control" type="date" />
+                            </div>
+                            <span asp-validation-for="FechaInicio" class="field-validation-error"></span>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="FechaFin" class="form-label">
+                                <i class="bi bi-calendar-check me-1"></i>Fecha de Fin
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
+                                <input asp-for="FechaFin" class="form-control" type="date" />
+                            </div>
+                            <span asp-validation-for="FechaFin" class="field-validation-error"></span>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Delete" asp-route-id="@Model.CursoId" class="btn btn-outline-danger">
+                            <i class="bi bi-trash me-1"></i>
+                            Eliminar
+                        </a>
+                        <div class="d-flex gap-2">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-x-lg me-1"></i>
+                                Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-check-lg me-1"></i>
+                                Guardar Cambios
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/cursos.js" asp-append-version="true"></script>
+}

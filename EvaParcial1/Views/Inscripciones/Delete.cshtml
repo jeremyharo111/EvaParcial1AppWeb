@@ -1,0 +1,99 @@
+@model EvaParcial1.Models.Inscripcion
+
+@{
+    ViewData["Title"] = "Eliminar Inscripción";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title text-danger">
+            <i class="bi bi-exclamation-triangle"></i>
+            Eliminar Inscripción
+        </h1>
+        <p class="page-subtitle">Confirme la eliminación de la inscripción</p>
+    </div>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i>
+        Cancelar
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card border-danger">
+            <div class="card-body">
+                <div class="delete-warning">
+                    <i class="bi bi-exclamation-triangle-fill d-block"></i>
+                    <h4 class="text-danger">¿Está seguro de eliminar esta inscripción?</h4>
+                    <p class="text-muted mb-0">Esta acción no se puede deshacer.</p>
+                </div>
+
+                <div class="info-card mt-4">
+                    <div class="info-card-body">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-hash"></i>
+                                ID
+                            </div>
+                            <div class="info-value"><strong>@Model.InscripcionId</strong></div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-person"></i>
+                                Estudiante
+                            </div>
+                            <div class="info-value">@Model.Estudiante?.NombreCompleto</div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-book"></i>
+                                Curso
+                            </div>
+                            <div class="info-value">@Model.Curso?.Nombre</div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-calendar-check"></i>
+                                Fecha Inscripción
+                            </div>
+                            <div class="info-value">@Model.FechaInscripcion.ToString("dd/MM/yyyy")</div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-flag"></i>
+                                Estado
+                            </div>
+                            <div class="info-value">
+                                <span class="badge badge-status @(Model.Estado == "Activo" ? "bg-success" : "bg-secondary")">
+                                    @Model.Estado
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form asp-action="Delete" class="mt-4">
+                    <input type="hidden" asp-for="InscripcionId" />
+                    <div class="d-flex justify-content-center gap-3">
+                        <a asp-action="Index" class="btn btn-secondary btn-lg">
+                            <i class="bi bi-x-lg me-1"></i>
+                            Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-danger btn-lg">
+                            <i class="bi bi-trash me-1"></i>
+                            Sí, Eliminar Inscripción
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/inscripciones.js" asp-append-version="true"></script>
+}

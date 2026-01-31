@@ -1,0 +1,76 @@
+@{
+    ViewData["Title"] = "Inicio";
+    var inscripcionesRecientes = ViewBag.InscripcionesRecientes as List<EvaParcial1.Models.Inscripcion> ?? new List<EvaParcial1.Models.Inscripcion>();
+    var cursosProximos = ViewBag.CursosProximos as List<EvaParcial1.Models.Curso> ?? new List<EvaParcial1.Models.Curso>();
+}
+
+<div>
+    <!-- Hero Section -->
+    <div class="mb-5">
+        <div class="row align-items-center">
+            <div class="col-12">
+                <h1 class="display-5 fw-bold text-primary mb-3">
+                    Sistema de Gestión de Cursos
+                </h1>
+                <p class="lead text-muted mb-4">
+                    Evaluación parcial donde se debe relizar la gestión de cursos, estudiantes e inscripciones.
+                </p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a asp-controller="Cursos" asp-action="Create" class="btn btn-primary btn-lg">
+                        <i class="bi bi-plus-lg me-2"></i>Nuevo Curso
+                    </a>
+                    <a asp-controller="Estudiantes" asp-action="Create" class="btn btn-outline-primary btn-lg">
+                        <i class="bi bi-person-plus me-2"></i>Nuevo Estudiante
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="stat-card card-cursos">
+                <div class="stat-icon icon-cursos">
+                    <i class="bi bi-book"></i>
+                </div>
+                <div class="stat-number">@ViewBag.TotalCursos</div>
+                <div class="stat-label">Cursos Registrados</div>
+                <div class="mt-3">
+                    <a asp-controller="Cursos" asp-action="Index" class="btn btn-sm btn-outline-primary">
+                        Ver todos <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card card-estudiantes">
+                <div class="stat-icon icon-estudiantes">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div class="stat-number">@ViewBag.TotalEstudiantes</div>
+                <div class="stat-label">Estudiantes Registrados</div>
+                <div class="mt-3">
+                    <a asp-controller="Estudiantes" asp-action="Index" class="btn btn-sm btn-outline-info">
+                        Ver todos <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card card-inscripciones">
+                <div class="stat-icon icon-inscripciones">
+                    <i class="bi bi-clipboard-check"></i>
+                </div>
+                <div class="stat-number">@ViewBag.TotalInscripciones</div>
+                <div class="stat-label">Inscripciones Totales</div>
+                <div class="mt-3">
+                    <a asp-controller="Inscripciones" asp-action="Index" class="btn btn-sm btn-outline-success">
+                        Ver todas <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

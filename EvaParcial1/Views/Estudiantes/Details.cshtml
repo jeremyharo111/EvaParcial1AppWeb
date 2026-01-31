@@ -1,0 +1,176 @@
+@model EvaParcial1.Models.Estudiante
+
+@{
+    ViewData["Title"] = "Detalles del Estudiante";
+    var edad = DateTime.Now.Year - Model.FechaNacimiento.Year;
+    if (DateTime.Now.DayOfYear < Model.FechaNacimiento.DayOfYear) edad--;
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">
+            <i class="bi bi-person"></i>
+            Detalles del Estudiante
+        </h1>
+        <p class="page-subtitle">Información completa del estudiante seleccionado</p>
+    </div>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i>
+        Volver
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="info-card">
+            <div class="info-card-header">
+                <div class="avatar-circle-lg mx-auto mb-3">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <h2>@Model.NombreCompleto</h2>
+            </div>
+            <div class="info-card-body">
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="bi bi-hash"></i>
+                        ID del Estudiante
+                    </div>
+                    <div class="info-value">
+                        <strong>@Model.EstudianteId</strong>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="bi bi-person"></i>
+                        Nombre
+                    </div>
+                    <div class="info-value">@Model.Nombre</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="bi bi-person-badge"></i>
+                        Apellido
+                    </div>
+                    <div class="info-value">@Model.Apellido</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="bi bi-envelope"></i>
+                        Correo Electrónico
+                    </div>
+                    <div class="info-value">
+                        <a href="mailto:@Model.Email" class="text-decoration-none">
+                            @Model.Email
+                        </a>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="bi bi-calendar-heart"></i>
+                        Fecha de Nacimiento
+                    </div>
+                    <div class="info-value">
+                        <span class="badge bg-info">@Model.FechaNacimiento.ToString("dddd, dd MMMM yyyy")</span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="bi bi-hourglass"></i>
+                        Edad
+                    </div>
+                    <div class="info-value">
+                        <span class="badge bg-primary">@edad años</span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="bi bi-book"></i>
+                        Cursos Inscritos
+                    </div>
+                    <div class="info-value">
+                        <span class="badge bg-success">@Model.Inscripciones.Count curso(s)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-end gap-2">
+                <a asp-action="Edit" asp-route-id="@Model.EstudianteId" class="btn btn-warning">
+                    <i class="bi bi-pencil me-1"></i>
+                    Editar
+                </a>
+                <a asp-action="Delete" asp-route-id="@Model.EstudianteId" class="btn btn-danger">
+                    <i class="bi bi-trash me-1"></i>
+                    Eliminar
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header bg-secondary-gradient">
+                <i class="bi bi-book me-2"></i>
+                Cursos Inscritos
+            </div>
+            <div class="card-body p-0">
+                @if (Model.Inscripciones.Any())
+                {
+                    <ul class="list-group list-group-flush">
+                        @foreach (var inscripcion in Model.Inscripciones)
+                        {
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <i class="bi bi-book text-primary me-2"></i>
+                                        <strong>@inscripcion.Curso?.Nombre</strong>
+                                        <br/>
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar3 me-1"></i>
+                                            Inscrito: @inscripcion.FechaInscripcion.ToString("dd/MM/yyyy")
+                                        </small>
+                                    </div>
+                                    <span class="badge badge-status @(inscripcion.Estado == "Activo" ? "bg-success" : "bg-secondary")">
+                                        @inscripcion.Estado
+                                    </span>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="text-center py-4 text-muted">
+                        <i class="bi bi-book fs-1 d-block mb-2"></i>
+                        <p class="mb-0">Sin cursos inscritos</p>
+                        <a asp-controller="Inscripciones" asp-action="Create" class="btn btn-sm btn-primary mt-2">
+                            <i class="bi bi-plus me-1"></i>Inscribir
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .avatar-circle-lg {
+        width: 80px;
+        height: 80px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2.5rem;
+    }
+</style>
+
+@section Scripts {
+    <script src="~/js/estudiantes.js" asp-append-version="true"></script>
+}

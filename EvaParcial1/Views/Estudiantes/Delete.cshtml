@@ -1,0 +1,87 @@
+@model EvaParcial1.Models.Estudiante
+
+@{
+    ViewData["Title"] = "Eliminar Estudiante";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title text-danger">
+            <i class="bi bi-exclamation-triangle"></i>
+            Eliminar Estudiante
+        </h1>
+        <p class="page-subtitle">Confirme la eliminación del estudiante</p>
+    </div>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i>
+        Cancelar
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card border-danger">
+            <div class="card-body">
+                <div class="delete-warning">
+                    <i class="bi bi-exclamation-triangle-fill d-block"></i>
+                    <h4 class="text-danger">¿Está seguro de eliminar este estudiante?</h4>
+                    <p class="text-muted mb-0">Esta acción no se puede deshacer y eliminará todas las inscripciones asociadas.</p>
+                </div>
+
+                <div class="info-card mt-4">
+                    <div class="info-card-body">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-hash"></i>
+                                ID
+                            </div>
+                            <div class="info-value"><strong>@Model.EstudianteId</strong></div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-person"></i>
+                                Nombre Completo
+                            </div>
+                            <div class="info-value">@Model.NombreCompleto</div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-envelope"></i>
+                                Correo
+                            </div>
+                            <div class="info-value">@Model.Email</div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-calendar-heart"></i>
+                                F. Nacimiento
+                            </div>
+                            <div class="info-value">@Model.FechaNacimiento.ToString("dd/MM/yyyy")</div>
+                        </div>
+                    </div>
+                </div>
+
+                <form asp-action="Delete" class="mt-4">
+                    <input type="hidden" asp-for="EstudianteId" />
+                    <div class="d-flex justify-content-center gap-3">
+                        <a asp-action="Index" class="btn btn-secondary btn-lg">
+                            <i class="bi bi-x-lg me-1"></i>
+                            Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-danger btn-lg">
+                            <i class="bi bi-trash me-1"></i>
+                            Sí, Eliminar Estudiante
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/estudiantes.js" asp-append-version="true"></script>
+}

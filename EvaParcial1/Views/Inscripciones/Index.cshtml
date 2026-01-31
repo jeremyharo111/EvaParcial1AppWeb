@@ -1,0 +1,121 @@
+@model IEnumerable<EvaParcial1.Models.Inscripcion>
+
+@{
+    ViewData["Title"] = "Inscripciones";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">
+            <i class="bi bi-clipboard-check"></i>
+            Gestión de Inscripciones
+        </h1>
+        <p class="page-subtitle">Administra las inscripciones de estudiantes a cursos</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary btn-lg">
+        <i class="bi bi-plus-lg"></i>
+        Nueva Inscripción
+    </a>
+</div>
+
+<div class="card">
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-striped" id="inscripcionesTable">
+                <thead>
+                    <tr>
+                        <th><i class="bi bi-hash me-1"></i>ID</th>
+                        <th><i class="bi bi-person me-1"></i>Estudiante</th>
+                        <th><i class="bi bi-book me-1"></i>Curso</th>
+                        <th><i class="bi bi-calendar-check me-1"></i>Fecha Inscripción</th>
+                        <th><i class="bi bi-flag me-1"></i>Estado</th>
+                        <th class="text-center"><i class="bi bi-gear me-1"></i>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var estadoClass = item.Estado switch
+                        {
+                            "Activo" => "bg-success",
+                            "Completado" => "bg-primary",
+                            "Cancelado" => "bg-danger",
+                            "Pendiente" => "bg-warning",
+                            _ => "bg-secondary"
+                        };
+                        <tr>
+                            <td><strong>@item.InscripcionId</strong></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-circle-sm me-2">
+                                        <i class="bi bi-person-fill"></i>
+                                    </div>
+                                    <div>
+                                        <span class="fw-semibold">@item.Estudiante?.Apellido</span>, @item.Estudiante?.Nombre
+                                        <br/>
+                                        <small class="text-muted">@item.Estudiante?.Email</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <i class="bi bi-book text-primary me-1"></i>
+                                <span class="fw-semibold">@item.Curso?.Nombre</span>
+                            </td>
+                            <td>
+                                <i class="bi bi-calendar3 text-success me-1"></i>
+                                @item.FechaInscripcion.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                <span class="badge badge-status @estadoClass">@item.Estado</span>
+                            </td>
+                            <td>
+                                <div class="btn-action-group">
+                                    <a asp-action="Details" asp-route-id="@item.InscripcionId" class="btn btn-info btn-sm" title="Ver detalles">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.InscripcionId" class="btn btn-warning btn-sm" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.InscripcionId" class="btn btn-danger btn-sm" title="Eliminar">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="bi bi-clipboard-x"></i>
+            <h4>No hay inscripciones registradas</h4>
+            <p>Comienza inscribiendo estudiantes a cursos</p>
+            <a asp-action="Create" class="btn btn-primary mt-2">
+                <i class="bi bi-plus-lg me-1"></i>
+                Nueva Inscripción
+            </a>
+        </div>
+    }
+</div>
+
+<style>
+    .avatar-circle-sm {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 0.875rem;
+    }
+</style>
+
+@section Scripts {
+    <script src="~/js/inscripciones.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,120 @@
+@model IEnumerable<EvaParcial1.Models.Estudiante>
+
+@{
+    ViewData["Title"] = "Estudiantes";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">
+            <i class="bi bi-people"></i>
+            Gestión de Estudiantes
+        </h1>
+        <p class="page-subtitle">Administra los estudiantes registrados en el sistema</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary btn-lg">
+        <i class="bi bi-person-plus"></i>
+        Nuevo Estudiante
+    </a>
+</div>
+
+<div class="card">
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-striped" id="estudiantesTable">
+                <thead>
+                    <tr>
+                        <th><i class="bi bi-hash me-1"></i>ID</th>
+                        <th><i class="bi bi-person me-1"></i>Nombre Completo</th>
+                        <th><i class="bi bi-envelope me-1"></i>Correo Electrónico</th>
+                        <th><i class="bi bi-calendar-heart me-1"></i>Fecha Nacimiento</th>
+                        <th><i class="bi bi-hourglass me-1"></i>Edad</th>
+                        <th><i class="bi bi-book me-1"></i>Cursos</th>
+                        <th class="text-center"><i class="bi bi-gear me-1"></i>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var edad = DateTime.Now.Year - item.FechaNacimiento.Year;
+                        if (DateTime.Now.DayOfYear < item.FechaNacimiento.DayOfYear) edad--;
+                        
+                        <tr>
+                            <td><strong>@item.EstudianteId</strong></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-circle me-2">
+                                        <i class="bi bi-person-fill"></i>
+                                    </div>
+                                    <div>
+                                        <span class="fw-semibold">@item.Apellido</span>, @item.Nombre
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="mailto:@item.Email" class="text-decoration-none">
+                                    <i class="bi bi-envelope text-primary me-1"></i>
+                                    @item.Email
+                                </a>
+                            </td>
+                            <td>
+                                <i class="bi bi-calendar3 text-info me-1"></i>
+                                @item.FechaNacimiento.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                <span class="badge bg-primary">@edad años</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-info">@item.Inscripciones.Count curso(s)</span>
+                            </td>
+                            <td>
+                                <div class="btn-action-group">
+                                    <a asp-action="Details" asp-route-id="@item.EstudianteId" class="btn btn-info btn-sm" title="Ver detalles">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.EstudianteId" class="btn btn-warning btn-sm" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.EstudianteId" class="btn btn-danger btn-sm" title="Eliminar">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="bi bi-people"></i>
+            <h4>No hay estudiantes registrados</h4>
+            <p>Comienza agregando un nuevo estudiante al sistema</p>
+            <a asp-action="Create" class="btn btn-primary mt-2">
+                <i class="bi bi-person-plus me-1"></i>
+                Agregar Estudiante
+            </a>
+        </div>
+    }
+</div>
+
+<style>
+    .avatar-circle {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1rem;
+    }
+</style>
+
+@section Scripts {
+    <script src="~/js/estudiantes.js" asp-append-version="true"></script>
+}
